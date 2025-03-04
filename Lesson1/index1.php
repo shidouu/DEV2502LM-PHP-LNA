@@ -23,10 +23,10 @@
     echo 'DEVMASTER';
 
     // Toan tu, bieu thuc, toan hang...
-    $a == 112;
+    $a = 112;
     $b = 23;
     //su dung phep toan so hoc
-    $red = $a + $b;
+    $res = $a + $b;
     echo "<p> $a + $b = $res";
     // phep toan so sanh
 
