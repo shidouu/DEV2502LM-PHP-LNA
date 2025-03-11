@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài thực hành số 5</title>
+    <title>Bài thực hành số 4</title>
     <style>
         #main{
             height: 35px;
@@ -30,15 +30,10 @@
             background: #792b90;
             color: #fff !important;
         }
-        #language{
-            right: 0;
-            position: absolute;
-        }
     </style>
 </head>
 <body>
     <?php 
-     if(!isset($_GET["lang"]) || $_GET["lang"]=="vi"){
         $arrMenu = array(
             "home" => "Trang chủ",
             "about" => "Giới thiệu",
@@ -46,15 +41,6 @@
             "service" => "Dịch vụ",
             "contact" => "Liên hệ"
          );
-        }else{
-            $arrMenu = array(
-                "home" => "Home",
-                "about" => "About",
-                "product" => "Product",
-                "service" => "Service",
-                "contact" => "Contact"
-             );
-        }
     ?>
     <div id="main">
         <nav>
@@ -72,24 +58,13 @@
                         }
                 ?>
                 <li>
-                    <a <?php echo $selected; ?> href="index5.php?view=<?php echo $key;?>
-                    &lang=<?php echo isset ($_GET['lang'])?$_GET['lang']:"" ?>">
+                    <a <?php echo $selected; ?> href="index4.php?view=<?php echo $key; ?>">
                         <?php echo $value; ?>
                     </a>
                 </li>
                 <?php
                     }
                 ?>
-            </ul>
-            <ul id="language">
-                <li><a href="index5.php?view=<?php 
-                        echo isset ($_GET["view"])?$_GET["view"]:"home"
-                        ?>&lang=vi">VI</a>
-                </li>
-                <li><a href="index5.php?view=<?php 
-                        echo isset ($_GET["view"])?$_GET["view"]:"home"
-                        ?>&lang=en">EN</a>
-                </li> 
             </ul>
         </nav>
     </div>
