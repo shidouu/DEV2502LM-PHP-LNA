@@ -3,30 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
     <?php
-    //Gửi dữ liệu khi submit form
-    if (isset($_REQUEST['btnSubmit'])) {//Khi người dùng nhấn vào submit
-        //lây dữ liệu trên form bằng $_REQUEST
-        $name = $_REQUEST['txtfullname'];
-        $age = $_REQUEST['txtAge'];
-        echo '<h1> _REQUEST </h1>';
-    }
+        if(isset($_REQUEST["Login"])){
+            $userName = $_POST["userName"];
+            $password = $_POST["password"];
+            $account = 'account.txt';
+
+            $file = fopen($account, 'a') or die("File không tồn tại");
+            fwrite($file, $userName.'<>'.$password."----");
+
+            fclose($file);
+        }
     ?>
-    <h1>Làm việc với form</h1>
-    <hr/>
-    <form name="myForm" method="get" action="">
-        <p>Name:
-            <input type="text" name="txtFullName" value=""/>
-        </p>
-        <p>Age:
-            <input type="number" name="txtAge" value=""/>
-        </p>
-        <p>
-            <input type="submit" name="txtSubmit" value="submit"/>
-        </p>
+    <form action="" method="post">
+        <table>
+            <caption><h2>Login</h2></caption>
+            <tr>
+                <td>UserName</td>
+                <td>
+                    <input type="text" name="userName" id="userName" placeholder="Tên đăng nhập">
+                </td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>
+                    <input type="password" name="password" id="password" placeholder="Mật khẩu">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Login" name="Login"></td>
+            </tr>
+        </table>
     </form>
 </body>
 </html>

@@ -1,54 +1,44 @@
-<?php 
-    session_start();
-    echo "<h1> Đây là phiên làm  việc của người dùng:" .session_id();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Trang chủ</title>
+    <title>Đọc nội dung từ file thuchanhtxt</title>
 </head>
 <body>
-    <?php 
-        //header
-        include("fragments/header.php");
-    ?>
-    <section class="container border my-1">
-        <div class="row">
-            <?php 
-                require("fragments/nav-bar.php");
-            ?>
-        </div>
-    </section>
-    <section class="content-body container boder my-1">
-        <?php 
-            // include("fragments/navbar.php");
-        ?>
-        <?php 
-            include("fragments/footer.php");
-        ?>
-    </section>
-    <?php 
-        if(isset($_REQUEST["btnClearSession"])){
-            unset($_SESSION["member"]);//hủy biến session member
-            //hủy toàn bộ biến
-            session_destroy();
+    <h1>Đọc nội dung từ file thuchanh.txt</h1>
+    <hr>
+    <?php
+        $file = fopen("thuchanh.txt","r") or exit("Không đọc được file");
+        while(!feof($file)){
+            echo "<li>". fgets($file) ;
         }
+        fclose($file);
     ?>
-    <section>
-        <h2>Lấy giá trị từ session</h2>
+    <hr>
+    <h2>Đọc từng kí tự:</h2>
         <?php 
-            if(isset($_SESSION["member"])){
-                echo "Xin chào, ".$_SESSION["member"];
-            }else{
-                echo "Chưa lưu session";
+            $file = fopen("thuchanh.txt","r") or exit("Không đọc được file");
+
+            while(!feof($file)){
+                $ch = fgetc($file);
+                $ch = mb_convert_encoding($ch,'UTF-8','auto');
+                echo "<br>" .$ch;
             }
+            fclose($file);
         ?>
-        <form action="" method="post">
-            <button name="btnClearSession">Hủy session</button>
-        </form>
-    </section>
+    <h2>Đếm số lần người truy cập bấm F5</h2>
+    <?php
+        $txtfile ="dem.txt";
+        $file = fopen($txtfile,'r') or die("file không tồn tại");
+        $count = fread($file,'1024');
+
+        echo "Số lần truy cập : " . $count = $count+1;
+        fclose($file);
+
+        $file = fopen($txtfile, 'w') or die("file không tồn tại");
+        fwrite($file, $count);
+        fclose($file); 
+    ?>
 </body>
 </html>

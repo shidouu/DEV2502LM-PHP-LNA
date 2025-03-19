@@ -3,85 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab3</title>
+    <title>Upload file ảnh</title>
 </head>
 <body>
-    <form name="myForm" action="laydulieu.php" method="post">
-        <table width="450">
-            <caption>
-                <h3>Đăng ký thành viên</h3>
-            </caption>
+<?php 
+        $fileUpload = "";
+        $name = "";
+        if(isset($_POST["upload"])){
+            $name = trim($_POST["fileName"]);
+            if(isset($_FILES["avata"]) && $_FILES["avata"]["name"] != ""){
+                
+                $fileType = $_FILES["avata"]["type"];
+                $fileSize = $_FILES["avata"]["size"];
+                $fileError = $_FILES["avata"]["error"];
+
+                if($fileType == 'image/jpeg' || $fileType == 'image/png'){
+                    if($fileError == 0){  
+                        if($fileSize <= 2048000){
+                            $tmpFile = $_FILES["avata"]["tmp_name"];
+
+                            $destDir = "uploads/";
+                            if (!file_exists($destDir)) {
+                                mkdir($destDir, 0777, true);
+                            }
+                            $fileExtension = pathinfo($_FILES["avata"]["name"], PATHINFO_EXTENSION);
+                            $fileUpload = $destDir . (!empty($name) ? $name : time()) . '.' . $fileExtension;
+
+                            move_uploaded_file($tmpFile, $fileUpload);
+
+                            echo "File đã được upload thành công!<br>";
+                        } else {
+                            echo "File lớn hơn 2MB!";
+                        }
+
+                    } else {
+                        echo "File bị lỗi!";
+                    }
+
+                } else {
+                    echo "Chỉ chấp nhận file định dạng JPG hoặc PNG!";
+                }
+
+            } else {
+                echo "Chưa có file!";
+            }
+        }
+    ?>
+    <?php 
+        if(isset($name)){
+            echo $name."</br>";
+        ?>
+            <img src="<?php echo $fileUpload; ?>" alt="<?php echo $name; ?>" width="150" />
+        <?php } ?>
+
+    <h1>Upload file</h1>
+    <hr>
+    <form action="" method="post" enctype="multipart/form-data">
+        <table>
+            <caption><h2>Upload File</h2></caption>
             <tr>
-                <td>Tên đăng nhập</td>
+                <td>File Name</td>
                 <td>
-                    <input type="text" name="username" id="username" placeholder="Tên đăng nhập" />
+                    <input type="text" name="fileName" id="fileName" placeholder="Nhập tên ảnh">
                 </td>
             </tr>
             <tr>
-                <td>Mật khẩu</td>
-                <td>
-                    <input type="password" name="password" id="password" placeholder="Mật khẩu" />
-                </td>
-            </tr>
-            <tr>
-                <td>Họ Tên</td>
-                <td>
-                    <input type="text" name="fullname" id="fullname" placeholder="Họ tên" />
-                </td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td>
-                    <input type="email" name="email" id="email" placeholder="Thư điện tử" />
-                </td>
-            </tr>
-            <tr>
-                <td>Giới tính</td>
-                <td>
-                    <input type="radio" name="gioitinh" id="nam" value="Nam" />
-                    <label for="nam">Nam</label>
-                    <input type="radio" name="gioitinh" id="nu" value="Nữ" />
-                    <label for="nu">Nữ</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Sở thích</td>
-                <td>
-                    <input type="checkbox" name="sothich[]" id="dabong" value="Đá bóng" />
-                    <label for="dabong">Đá bóng</label>
-                    <input type="checkbox" name="sothich[]" id="caulong" value="Cầu lông" />
-                    <label for="caulong">Cầu lông</label>
-                    <input type="checkbox" name="sothich[]" id="dulich" value="Du lịch" />
-                    <label for="dulich">Du lịch</label>
-                    <input type="checkbox" name="sothich[]" id="nghenhac" value="Nghe nhạc" />
-                    <label for="nghenhac">Nghe nhạc</label>
-                    <input type="checkbox" name="sothich[]" id="bongban" value="Bóng bàn" />
-                    <label for="bongban">Bóng bàn</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Tỉnh thành</td>
-                <td>
-                    <select name="tinhthanh" id="tinhthanh">
-                        <option value="">--Chọn tỉnh--</option>
-                        <option value="hanoi">Hà Nội</option>
-                        <option value="haiphong">Hải Phòng</option>
-                        <option value="hochiminh">Hồ Chí Minh</option>
-                        <option value="hungyen">Hưng Yên</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top">Mô tả</td>
-                <td>
-                    <textarea cols="20" rows="5" name="mota" id="mota" placeholder="Mô tả thông tin"></textarea>
-                </td>
+                <td>Image File</td>
+                <td><input type="file" name="avata" id="avata"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <input type="submit" value="Đồng ý" name="submit" id="submit" />
-                    <input type="reset" value="Làm lại" name="reset" id="reset" />
+                    <input type="submit" value="Upload" name="upload">
                 </td>
             </tr>
         </table>
