@@ -15,7 +15,7 @@
         $dbConnection = $db->getConnection();
 
         //Kiểm tra request; thực hiện trên controller nào và action nào
-        $controllerName = isset($_GET['controller']) ? $_GET['controller']:'users';
+        $controllerName = isset($_GET['controller']) ? $_GET['controller']:'students';
         $actionName = isset($_GET['action']) ? $_GET['action']:'index';
 
         //lấy tên model
